@@ -1,40 +1,43 @@
 import React, { useState, useEffect, useContext } from "react";
 import Modal from "./UI/Modal/Modal";
-import StudentContext from "../store/student-context";
+import BlogContext from "../store/blog-context";
+// import StudentContext from "../store/student-context";
 
-const Form = ({ edit, onCloseForm, studentToEdit, studentId }) => {
-  const studentCtx = useContext(StudentContext);
+const Form = ({ edit, onCloseForm, blogToEdit, blogId }) => {
+  // const studentCtx = useContext(StudentContext);
+  const blogCtx = useContext(BlogContext);
 
-  const [name, setName] = useState(studentToEdit ? studentToEdit.name : "");
-  const [phoneNo, setPhoneNo] = useState(studentToEdit ? studentToEdit.phone : "");
-  const [emailId, setEmailId] = useState(studentToEdit ? studentToEdit.email : "");
+  const [imageUrl, setImageUrl] = useState(blogToEdit ? blogToEdit.imageUrl : "");
+  const [title, setTitle] = useState(blogToEdit ? blogToEdit.title : "");
+  const [description, setDescription] = useState(blogToEdit ? blogToEdit.description : "");
 
   useEffect(() => {
-    if (studentToEdit) {
-      setName(studentToEdit.name);
-      setPhoneNo(studentToEdit.phone);
-      setEmailId(studentToEdit.email);
+    if (blogToEdit) {
+      setImageUrl(blogToEdit.imageUrl);
+      setTitle(blogToEdit.title);
+      setDescription(blogToEdit.description);
+      console.log("if condition truthy");
     }
-  }, [studentToEdit]);
+  }, [blogToEdit]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const studentData = {
-      name: name,
-      phone: phoneNo,
-      email: emailId,
+    const blogData = {
+      imageUrl: imageUrl,
+      title: title,
+      description: description,
     };
 
     if (edit) {
-      studentCtx.editStudent(studentId, studentData);
+      blogCtx.editBlog(blogId, blogData);
     } else {
-      studentCtx.addStudent(studentData);
+      blogCtx.addBlog(blogData);
     }
 
     // Clear form and close modal after submission
-    setName("");
-    setPhoneNo("");
-    setEmailId("");
+    setImageUrl("");
+    setTitle("");
+    setDescription("");
     onCloseForm();
   };
 
@@ -42,37 +45,37 @@ const Form = ({ edit, onCloseForm, studentToEdit, studentId }) => {
     <Modal onClick={onCloseForm}>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="image">ImageUrl:</label>
           <input
             type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            id="image"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="phoneNo">PhoneNo:</label>
+          <label htmlFor="title">Title:</label>
           <input
-            type="number"
-            id="phoneNo"
-            value={phoneNo}
-            onChange={(e) => setPhoneNo(e.target.value)}
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="emailId">EmailId:</label>
+          <label htmlFor="description">Blog Description:</label>
           <input
-            type="email"
-            id="emailId"
-            value={emailId}
-            onChange={(e) => setEmailId(e.target.value)}
+            type="text"
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
         <div>
-          <button type="submit">{edit ? "Edit Student" : "Add Student"}</button>
+          <button type="submit">{edit ? "Edit blog" : "Add blog"}</button>
         </div>
       </form>
     </Modal>

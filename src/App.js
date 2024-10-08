@@ -1,35 +1,34 @@
 
 import React, { useState, useContext } from 'react';
-import Students from './components/Students';
+import Blogs from './components/Blogs';
 import Form from './components/Form';
-import StudentContext from './store/student-context';
+import BlogContext from './store/blog-context';
 
 function App() {
-  const studentCtx = useContext(StudentContext); // Now this will work correctly as it's within the provider
   const [formIsShown, setFormIsShown] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [studentToEdit, setStudentToEdit] = useState(null);
-  const [studentIdToEdit, setStudentIdToEdit] = useState(null);
+  const [blogToEdit, setBlogToEdit] = useState(null);
+  const [blogIdToEdit, setBlogIdToEdit] = useState(null);
 
   const hideFormHandler = () => {
     setFormIsShown(false);
     setIsEditMode(false);
-    setStudentToEdit(null);
-    setStudentIdToEdit(null);
+    setBlogToEdit(null);
+    setBlogIdToEdit(null);
   };
 
-  const addStudentHandler = () => {
+  const addBlogHandler = () => {
     setFormIsShown(true);
     setIsEditMode(false);
-    setStudentToEdit(null);
-    setStudentIdToEdit(null);
+    setBlogToEdit(null);
+    setBlogIdToEdit(null);
   };
 
-  const editStudentHandler = (id, student) => {
+  const editBlogHandler = (id, blog) => {
     setFormIsShown(true);
     setIsEditMode(true);
-    setStudentToEdit(student);
-    setStudentIdToEdit(id);
+    setBlogToEdit(blog);
+    setBlogIdToEdit(id);
   };
 
   return (
@@ -37,15 +36,15 @@ function App() {
       {formIsShown && (
         <Form
           edit={isEditMode}
-          studentToEdit={studentToEdit}
-          studentId={studentIdToEdit}
+          blogToEdit={blogToEdit}
+          blogId={blogIdToEdit}
           onCloseForm={hideFormHandler}
         />
       )}
-      <h1>Student Manager</h1>
-      <p>Total Students: {studentCtx.students.length}</p>
-      <button onClick={addStudentHandler}>Add Student</button>
-      <Students onEditStudent={editStudentHandler} />
+      <h1>Blog Website</h1>
+      <button onClick={addBlogHandler}>Add New Blog</button>
+      <hr />
+      <Blogs onEditBlog={editBlogHandler}/>
     </>
   );
 }
